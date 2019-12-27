@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dataguru.dianshang.mapper.ProductMapper">
+
+    <insert id="insertProduct" parameterType="cn.dataguru.dianshang.entity.ProductInfo">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into youfads_product (producttypeid,producttitle,productprice,mechartid,createtime,auditstate,stocknum,productpicurl,proudctstatus) values(#{producttypeid},#{producttitle},#{productprice},#{mechartid},#{createtime},#{auditstate},#{stocknum},#{productpicurl},#{proudctstatus})
+    </insert>
+
+    <update id="updateProductAuditStatus" parameterType="cn.dataguru.dianshang.entity.ProductInfo">
+            update youfads_product set auditstate = #{auditstate} where id = #{id}
+    </update>
+
+    <update id="updateProductStatus" parameterType="cn.dataguru.dianshang.entity.ProductInfo">
+            update youfads_product set proudctstatus = #{proudctstatus} where id = #{id}
+    </update>
+
+    <select id="queryByVo" parameterType="cn.dataguru.dianshang.vo.ProductInfoVo" resultType="cn.dataguru.dianshang.entity.ProductInfo">
+        select * from youfads_product
+        <where>
+            <include refid="customsqls"></include>
+        </where>
+    </select>
+
+    <sql id="customsqls" >
+        <if test="customProductInfo != null">
+            <if test="customProductInfo.producttypeid!=null and customProductInfo.producttypeid!=''">
+                and producttypeid = "${customProductInfo.producttypeid}"
+            </if>
+            <if test="customProductInfo.producttitle!=null and customProductInfo.producttitle!='' ">
+                and producttitle = "${customProductInfo.producttitle}"
+            </if>
+            <if test="customProductInfo.productprice!=null and customProductInfo.productprice!='' ">
+                and productprice = "${customProductInfo.productprice}"
+            </if>
+            <if test="customProductInfo.mechartid!=null and customProductInfo.mechartid!='' ">
+                and mechartid = "${customProductInfo.mechartid}"
+            </if>
+            <if test="customProductInfo.auditstate!=null and customProductInfo.auditstate!='' ">
+                and auditstate = "${customProductInfo.auditstate}"
+            </if>
+            <if test="customProductInfo.proudctstatus!=null and customProductInfo.proudctstatus!='' ">
+                and proudctstatus = "${customProductInfo.proudctstatus}"
+            </if>
+        </if>
+    </sql>
+
+
+</mapper>

@@ -7,6 +7,8 @@
     <modules>
         <module>common</module>
         <module>ds_user</module>
+        <module>ds_producttype</module>
+        <module>ds_product</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

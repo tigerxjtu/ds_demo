@@ -2,8 +2,8 @@ package cn.dataguru.dianshang.controller;
 
 
 import cn.dataguru.dianshang.entity.UserInfo;
-import cn.dataguru.dianshang.service.UserService;
 import cn.dataguru.dianshang.vo.CustomUserInfo;
+import cn.dataguru.dianshang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
