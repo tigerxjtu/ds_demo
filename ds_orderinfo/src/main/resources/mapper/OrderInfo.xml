@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dataguru.dianshang.mapper.OrderInfoMapper">
+
+    <insert id="insertOrderMain" parameterType="cn.dataguru.dianshang.entity.Ordermain">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into youfands_ordermain (payamount,userid,createtime,paystatus,consigneeadress,consigneephone,consigneename,orderstatus) values(#{payamount},#{userid},#{createtime},#{paystatus},#{consigneeadress},#{consigneephone},#{consigneename},#{orderstatus})
+    </insert>
+
+    <select id="findOrderByVo" parameterType="cn.dataguru.dianshang.vo.OrderInfoVo" resultType="cn.dataguru.dianshang.entity.Ordermain">
+        select * from youfands_ordermain
+        <where>
+            <include refid="consutoql"></include>
+        </where>
+    </select>
+    <sql id="consutoql" >
+        <if test="customOrderInfo != null">
+            <if test="customOrderInfo.payamount!=null and customOrderInfo.payamount!=''">
+                and payamount = "${customOrderInfo.payamount}"
+            </if>
+            <if test="customOrderInfo.userid!=null and customOrderInfo.userid!='' ">
+                and userid = "${customOrderInfo.userid}"
+            </if>
+            <if test="customOrderInfo.createtime!=null and customOrderInfo.createtime!='' ">
+                and createtime = "${customOrderInfo.createtime}"
+            </if>
+            <if test="customOrderInfo.consigneeadress!=null and customOrderInfo.consigneeadress!='' ">
+                and consigneeadress = "${customOrderInfo.consigneeadress}"
+            </if>
+            <if test="customOrderInfo.consigneephone!=null and customOrderInfo.consigneephone!='' ">
+                and consigneephone = "${customOrderInfo.consigneephone}"
+            </if>
+            <if test="customOrderInfo.consigneename!=null and customOrderInfo.consigneename!='' ">
+                and consigneename = "${customOrderInfo.consigneename}"
+            </if>
+            <if test="customOrderInfo.paystatus!=null and customOrderInfo.paystatus!='' ">
+                and paystatus = "${customOrderInfo.paystatus}"
+            </if>
+            <if test="customOrderInfo.orderstatus!=null and customOrderInfo.orderstatus!='' ">
+                and orderstatus = "${customOrderInfo.orderstatus}"
+            </if>
+        </if>
+    </sql>
+
+    <update id="updateOrderInfoById" parameterType="cn.dataguru.dianshang.entity.Ordermain">
+        update youfands_ordermain set consigneeadress = #{consigneeadress},consigneephone = #{consigneephone},consigneename = #{consigneename} where id = #{id}
+    </update>
+
+    <update id="updateOrderInfoStatus" parameterType="cn.dataguru.dianshang.entity.Ordermain">
+        update youfands_ordermain set orderstatus = #{orderstatus} where id = #{id}
+    </update>
+
+    <select id="findOrderInfoById" parameterType="java.lang.Long" resultType="cn.dataguru.dianshang.entity.Ordermain">
+        select * from youfands_ordermain where id = #{id}
+    </select>
+
+</mapper>
