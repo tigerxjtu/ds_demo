@@ -5,8 +5,11 @@ import cn.dataguru.dianshang.dao.ProductInfoDao;
 import cn.dataguru.dianshang.entity.ProductDetail;
 import cn.dataguru.dianshang.entity.ProductInfo;
 import cn.dataguru.dianshang.service.ProductService;
+import cn.dataguru.dianshang.service.SearchService;
 import cn.dataguru.dianshang.vo.CustomProductInfo;
 import cn.dataguru.dianshang.vo.ProductInfoVo;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,10 @@ public class ProductInfoServiceImpl implements ProductService {
     @Autowired
     private ProductDetailDao productDetailDao;
 
+
+    @Autowired
+    private SearchService searchService;
+
     @Override
     @Transactional
     public void issueProduct(ProductInfo productInfo, ProductDetail productDetail) {
@@ -33,6 +40,8 @@ public class ProductInfoServiceImpl implements ProductService {
             productDetail.setProductid(productInfo.getId());
             productDetailDao.insertProductDetail(productDetail);
         }
+        JSONObject jsonObject = (JSONObject)JSON.toJSON(productInfo);
+        searchService.addData(jsonObject,"youfands","product",""+productInfo.getId());
     }
 
     @Override

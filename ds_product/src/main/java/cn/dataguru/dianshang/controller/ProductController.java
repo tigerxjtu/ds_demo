@@ -3,6 +3,7 @@ package cn.dataguru.dianshang.controller;
 import cn.dataguru.dianshang.entity.ProductDetail;
 import cn.dataguru.dianshang.entity.ProductInfo;
 import cn.dataguru.dianshang.service.ProductService;
+import cn.dataguru.dianshang.service.SearchService;
 import cn.dataguru.dianshang.vo.CustomProductInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
 
     @RequestMapping("toIssue")
     public String toIssueProduct(){
