@@ -13,6 +13,8 @@
         <module>ds_registry</module>
         <module>ds_pindao</module>
         <module>ds_search</module>
+        <module>ds_pay</module>
+        <module>ds_user2</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
