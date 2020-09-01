@@ -4,6 +4,7 @@ import cn.dataguru.dianshang.dao.ProductDetailDao;
 import cn.dataguru.dianshang.dao.ProductInfoDao;
 import cn.dataguru.dianshang.entity.ProductDetail;
 import cn.dataguru.dianshang.entity.ProductInfo;
+import cn.dataguru.dianshang.entity.ProductTotal;
 import cn.dataguru.dianshang.service.ProductService;
 import cn.dataguru.dianshang.service.SearchService;
 import cn.dataguru.dianshang.vo.CustomProductInfo;
@@ -65,5 +66,20 @@ public class ProductInfoServiceImpl implements ProductService {
         ProductInfoVo productInfoVo = new ProductInfoVo();
         productInfoVo.setCustomProductInfo(constomProductInfo);
         return productInfoDao.queryByVo(productInfoVo);
+    }
+
+    @Override
+    public ProductTotal findProductById(Long id) {
+        ProductTotal productTotal = new ProductTotal();
+        ProductInfo productInfo = productInfoDao.findProductById(id);
+        ProductDetail productDetail = productDetailDao.findProductDetailByProductId(id);
+        productTotal.setProductInfo(productInfo);
+        productTotal.setProductDetail(productDetail);
+        return productTotal;
+    }
+
+    @Override
+    public ProductInfo updateProductById(Long id, String productTile, double productPrice) {
+        return productInfoDao.updateProductInfo(id, productTile,productPrice);
     }
 }

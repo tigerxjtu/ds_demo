@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商家入驻</title>
+</head>
+<body>
+<form th:action="issue" method="post">
+    商家名称：<input th:type="text" th:name="merchantname"><br/>
+    商家账号：<input th:type="text" th:name="merchantaccount"><br/>
+    密码：<input th:type="text" th:name="merchantpassword"><br/>
+    经营范围：<input th:type="text" th:name="merchantscope"><br/>
+
+    <input th:type="submit" value="提交">
+</form>
+
+</body>
+</html>

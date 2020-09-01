@@ -2,6 +2,7 @@ package cn.dataguru.dianshang.service;
 
 import cn.dataguru.dianshang.entity.ProductDetail;
 import cn.dataguru.dianshang.entity.ProductInfo;
+import cn.dataguru.dianshang.entity.ProductTotal;
 import cn.dataguru.dianshang.vo.CustomProductInfo;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface ProductService {
     public Long updateProductAuditStatus(long id, int auditstate);
     public Long updateProductStatus(long id, int state);
     public List<ProductInfo> queryByVo(CustomProductInfo customProductInfo);
+    public ProductTotal findProductById(Long id);
+    public ProductInfo updateProductById(Long id, String productTile, double productPrice);
 }

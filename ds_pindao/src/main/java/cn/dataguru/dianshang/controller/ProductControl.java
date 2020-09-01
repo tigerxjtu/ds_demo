@@ -1,17 +1,24 @@
 package cn.dataguru.dianshang.controller;
 
 import cn.dataguru.dianshang.entity.ProductInfo;
+import cn.dataguru.dianshang.entity.ProductTotal;
 import cn.dataguru.dianshang.entity.ProductTypeInfo;
 import cn.dataguru.dianshang.service.ProductService;
 import cn.dataguru.dianshang.service.ProductTypeService;
+import cn.dataguru.dianshang.service.RedisService;
 import cn.dataguru.dianshang.service.SearchService;
+import cn.dataguru.dianshang.util.IPSpiderUtil;
+import cn.dataguru.dianshang.util.SpiderPreUtil;
 import cn.dataguru.dianshang.vo.EsPage;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +37,9 @@ public class ProductControl {
     @Autowired
     private SearchService searchService;
 
+    @Autowired
+    private RedisService redisService;
+
     @RequestMapping(value = "listProduct")
     public String listProductByTypeId(long productypeid, Model model){
         List<ProductInfo> list = productService.queryAll(productypeid);
@@ -41,7 +51,8 @@ public class ProductControl {
     }
 
     @RequestMapping(value = "/indexproduct")
-    public String indexproduct(long productypeid, Model model){
+    public String indexproduct(long productypeid, Model model,HttpServletRequest req,HttpServletResponse rep){
+        SpiderPreUtil.setCookies(req,rep);
         Map<ProductTypeInfo,List<ProductTypeInfo>> datamap = new HashMap<ProductTypeInfo,List<ProductTypeInfo>>();
         List<ProductTypeInfo> list = productTypeService.listAllProductType(-1);
         for(ProductTypeInfo productType:list){
@@ -104,5 +115,40 @@ public class ProductControl {
         }
         model.addAttribute("productlistfinal",productlistfinal);
         return "beautiful/index";
+    }
+
+    @RequestMapping(value = "/findProductById")
+    public String findProductById(long productId, Model model, HttpServletRequest req, HttpServletResponse response){
+        if(!SpiderPreUtil.valiRefer(req)){
+            return "";
+        }
+        if(!SpiderPreUtil.valiCookie(req,response)){
+            return "";
+        }
+        if(IPSpiderUtil.isPrev(req,redisService)){
+            return "";
+        }
+        String productTotalString = redisService.getStr("product:"+productId);
+        ProductTotal productTotal = null;
+        if(StringUtils.isBlank(productTotalString)){
+            productTotal = productService.findById(productId);
+            String productTotalJson = JSONObject.toJSONString(productTotal);
+            redisService.setStr("product:"+productId,productTotalJson);
+        }else {
+            productTotal = JSONObject.parseObject(productTotalString,ProductTotal.class);
+        }
+
+        model.addAttribute("productTotal",productTotal);
+
+        Map<ProductTypeInfo,List<ProductTypeInfo>> datamap = new HashMap<ProductTypeInfo,List<ProductTypeInfo>>();
+        List<ProductTypeInfo> list = productTypeService.listAllProductType(-1);
+        for(ProductTypeInfo productType:list){
+            long parentid = productType.getId();
+            List<ProductTypeInfo> innerlist = productTypeService.listAllProductType(parentid);
+            datamap.put(productType,innerlist);
+        }
+        model.addAttribute("datamap",datamap);
+        model.addAttribute("productypelist",list);
+        return "beautiful/single";
     }
 }

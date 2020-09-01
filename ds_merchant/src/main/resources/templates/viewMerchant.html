@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商家信息</title>
+</head>
+<body>
+商家名称：<span th:text="${merchantInfo.merchantname}"></span><br/>
+    商家账号：<span th:text="${merchantInfo.merchantaccount}"></span><br/>
+    密码：<span th:text="${merchantInfo.merchantpassword}"></span><br/>
+    经营范围：<span th:text="${merchantInfo.merchantscope}"></span><br/>
+    审核状态：<span th:text="${merchantInfo.auditstatus}"></span><br/>
+    商家状态：<span th:text="${merchantInfo.soldout}"></span><br/>
+
+
+</body>
+</html>

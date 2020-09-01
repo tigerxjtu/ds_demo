@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商家信息</title>
+</head>
+<body>
+<form th:action="updateMerchantById" method="post">
+    <input th:type="hidden" th:value="${merchantInfo.id}" th:name="merchantId">
+    商家名称：<input th:type="text" th:name="merchantname" th:value="${merchantInfo.merchantname}"><br/>
+    商家账号：<input th:type="text" th:name="merchantaccount" th:value="${merchantInfo.merchantaccount}"><br/>
+    密码：<input th:type="text" th:name="merchantpassword" th:value="${merchantInfo.merchantpassword}"><br/>
+    经营范围：<input th:type="text" th:name="merchantscope" th:value="${merchantInfo.merchantscope}"><br/>
+
+    <input th:type="submit" value="提交">
+</form>
+
+</body>
+</html>

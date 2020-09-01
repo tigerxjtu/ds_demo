@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dataguru.dianshang.mapper.MerchantMapper">
+
+    <insert id="insertMerchant" parameterType="cn.dataguru.dianshang.entity.MerchantInfo">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into youfands_merchant (merchantname,merchantaccount,merchantpassword,merchantscope,auditstatus,soldout) values(#{merchantname},#{merchantaccount},#{merchantpassword},#{merchantscope},#{auditstatus},#{soldout})
+    </insert>
+
+    <update id="updateMerchantAuditStatus" parameterType="cn.dataguru.dianshang.entity.MerchantInfo">
+            update youfands_merchant set auditstatus = #{auditstatus} where id = #{id}
+    </update>
+
+    <update id="updateMerchantStatus" parameterType="cn.dataguru.dianshang.entity.MerchantInfo">
+            update youfands_merchant set soldout = #{soldout} where id = #{id}
+    </update>
+
+    <select id="queryByVo" parameterType="cn.dataguru.dianshang.vo.MerchantInfoVo" resultType="cn.dataguru.dianshang.entity.MerchantInfo">
+        select * from youfands_merchant
+        <where>
+            <include refid="customsqls"></include>
+        </where>
+    </select>
+
+    <sql id="customsqls" >
+        <if test="customMerchantInfo != null">
+            <if test="customMerchantInfo.merchantname!=null and customMerchantInfo.merchantname!=''">
+                and merchantname = "${customMerchantInfo.merchantname}"
+            </if>
+            <if test="customMerchantInfo.merchantaccount!=null and customMerchantInfo.merchantaccount!='' ">
+                and merchantaccount = "${customMerchantInfo.merchantaccount}"
+            </if>
+            <if test="customMerchantInfo.auditstatus!=null and customMerchantInfo.auditstatus!='' ">
+                and auditstatus = "${customMerchantInfo.auditstatus}"
+            </if>
+            <if test="customMerchantInfo.soldout!=null and customMerchantInfo.soldout!='' ">
+                and soldout = "${customMerchantInfo.soldout}"
+            </if>
+        </if>
+    </sql>
+
+    <select id="findMerchantById" parameterType="cn.dataguru.dianshang.entity.MerchantInfo" resultType="cn.dataguru.dianshang.entity.MerchantInfo">
+        select * from youfands_merchant where id = #{id}
+    </select>
+
+    <update id="updateMerchantInfo" parameterType="cn.dataguru.dianshang.entity.MerchantInfo">
+        update youfands_merchant set merchantname = #{merchantname},merchantaccount = #{merchantaccount},merchantpassword=#{merchantpassword},merchantscope=#{merchantscope}  where id = #{id}
+    </update>
+
+
+</mapper>

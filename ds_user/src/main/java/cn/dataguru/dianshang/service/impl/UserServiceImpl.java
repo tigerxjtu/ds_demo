@@ -6,6 +6,7 @@ import cn.dataguru.dianshang.service.UserService;
 import cn.dataguru.dianshang.utils.Md5Util;
 import cn.dataguru.dianshang.vo.CustomUserInfo;
 import cn.dataguru.dianshang.vo.UserInfoVo;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,11 +75,15 @@ public class UserServiceImpl implements UserService {
                 if(!passwordencrypt.equals(md5passw)){
                     resultmap.put("message","密码不对");
                     resultmap.put("result","false");
+                }else{
+                    userInfo=userInfo1;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        String userInfoString= JSONObject.toJSONString(userInfo);
+        resultmap.put("userInfo",userInfoString);
         return resultmap;
     }
 }

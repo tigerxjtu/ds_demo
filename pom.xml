@@ -15,6 +15,9 @@
         <module>ds_search</module>
         <module>ds_pay</module>
         <module>ds_user2</module>
+        <module>ds_redisservice</module>
+        <module>rabbitmqtest</module>
+        <module>ds_merchant</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
