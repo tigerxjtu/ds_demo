@@ -9,6 +9,7 @@ import cn.dataguru.dianshang.vo.UserInfoVo;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -17,6 +18,8 @@ import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    public static int count=0;
 
     @Autowired
     private UserDao userDao;
@@ -34,9 +37,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "UserCache",key = "'user'+#id")
     public UserInfo findUserById(Long id) {
         UserInfo userinfo = new UserInfo();
         userinfo.setId(id);
+        count++;
+        System.out.println("service findUserById visits="+count);
         return userDao.findUserById(userinfo);
     }
 

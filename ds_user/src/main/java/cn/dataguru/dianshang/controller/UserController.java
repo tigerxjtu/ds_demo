@@ -2,6 +2,7 @@ package cn.dataguru.dianshang.controller;
 
 
 import cn.dataguru.dianshang.entity.UserInfo;
+import cn.dataguru.dianshang.service.impl.UserServiceImpl;
 import cn.dataguru.dianshang.vo.CustomUserInfo;
 import cn.dataguru.dianshang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "userinfo")
 public class UserController {
+
+    private static int count=0;
 
     @Autowired
     private UserService userService;
@@ -31,8 +34,12 @@ public class UserController {
 
     @RequestMapping(value = "findUserById")
     public String findUserById(long id, Model model){
+        count++;
+        System.out.println("controller findUserById visits="+count);
         UserInfo userInfo = userService.findUserById(id);
         model.addAttribute("userinfo",userInfo);
+        model.addAttribute("serviceCount", UserServiceImpl.count);
+        model.addAttribute("controllerCount", count);
         return "viewUser";
     }
 

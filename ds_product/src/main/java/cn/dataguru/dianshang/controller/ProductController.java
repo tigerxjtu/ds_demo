@@ -28,6 +28,9 @@ public class ProductController {
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private SearchService searchService;
+
 
     @RequestMapping("toIssue")
     public String toIssueProduct(){
@@ -37,6 +40,7 @@ public class ProductController {
     @RequestMapping(value = "issue",method = RequestMethod.POST)
     public void issueProduct(ProductInfo productInfo, ProductDetail productDetail){
         productService.issueProduct(productInfo,productDetail);
+//        searchService.addData();
     }
 
     /**

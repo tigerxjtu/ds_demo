@@ -18,6 +18,7 @@
         <module>ds_redisservice</module>
         <module>rabbitmqtest</module>
         <module>ds_merchant</module>
+        <module>ds_producttype2</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ds_producttype</artifactId>
+    <artifactId>ds_producttype2</artifactId>
 
     <dependencies>
         <dependency>

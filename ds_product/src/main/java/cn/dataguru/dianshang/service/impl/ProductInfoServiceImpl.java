@@ -43,6 +43,10 @@ public class ProductInfoServiceImpl implements ProductService {
         }
         JSONObject jsonObject = (JSONObject)JSON.toJSON(productInfo);
         searchService.addData(jsonObject,"youfands","product",""+productInfo.getId());
+        if(productDetail != null){
+            searchService.addData((JSONObject)JSON.toJSON(productDetail),"youfands","productdetail",""+productInfo.getId());
+        }
+
     }
 
     @Override
