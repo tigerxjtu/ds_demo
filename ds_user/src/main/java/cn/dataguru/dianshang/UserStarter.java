@@ -7,11 +7,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 
@@ -20,6 +24,8 @@ import javax.sql.DataSource;
 @EnableEurekaClient
 // 启用缓存注解
 @EnableCaching
+@EnableDiscoveryClient
+@EnableCircuitBreaker
 public class UserStarter {
 
     @Bean
@@ -38,6 +44,16 @@ public class UserStarter {
 
         return sqlSessionFactoryBean.getObject();
 
+    }
+
+    /**
+     * Spring提供的用于访问Rest服务的客户端
+     * @return
+     */
+    @Bean
+    @LoadBalanced
+    RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean

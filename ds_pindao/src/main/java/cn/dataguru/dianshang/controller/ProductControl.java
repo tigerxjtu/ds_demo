@@ -119,14 +119,14 @@ public class ProductControl {
 
     @RequestMapping(value = "/findProductById")
     public String findProductById(long productId, Model model, HttpServletRequest req, HttpServletResponse response){
-        if(!SpiderPreUtil.valiRefer(req)){
-            return "";
+        if(!SpiderPreUtil.validateReferer(req,"productlist/indexproduct")){
+            return "error";
         }
-        if(!SpiderPreUtil.valiCookie(req,response)){
-            return "";
+        if(!SpiderPreUtil.validateCookie(req,response)){
+            return "error";
         }
         if(IPSpiderUtil.isPrev(req,redisService)){
-            return "";
+            return "error";
         }
         String productTotalString = redisService.getStr("product:"+productId);
         ProductTotal productTotal = null;

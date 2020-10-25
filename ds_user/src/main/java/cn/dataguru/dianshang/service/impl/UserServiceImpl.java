@@ -7,6 +7,7 @@ import cn.dataguru.dianshang.utils.Md5Util;
 import cn.dataguru.dianshang.vo.CustomUserInfo;
 import cn.dataguru.dianshang.vo.UserInfoVo;
 import com.alibaba.fastjson.JSONObject;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,12 +39,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "UserCache",key = "'user'+#id")
+    @HystrixCommand(fallbackMethod = "findUserFallback")
     public UserInfo findUserById(Long id) {
         UserInfo userinfo = new UserInfo();
         userinfo.setId(id);
         count++;
         System.out.println("service findUserById visits="+count);
-        return userDao.findUserById(userinfo);
+        UserInfo u=userDao.findUserById(userinfo);
+        if (u==null){
+            throw new RuntimeException("no user");
+        }
+        return u;
+    }
+
+    public UserInfo findUserFallback(Long id){
+        UserInfo userinfo = new UserInfo();
+        userinfo.setId(0L);
+        userinfo.setAccount("未知账户");
+        userinfo.setName("无名");
+        return userinfo;
+
     }
 
     @Override

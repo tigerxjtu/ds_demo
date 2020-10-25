@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>common</module>
+<!--        <module>common</module>-->
         <module>ds_user</module>
         <module>ds_producttype</module>
         <module>ds_product</module>
@@ -19,11 +19,12 @@
         <module>rabbitmqtest</module>
         <module>ds_merchant</module>
         <module>ds_producttype2</module>
+<!--        <module>ds_gateway</module>-->
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.0.RELEASE</version>
+        <version>2.0.8.RELEASE</version>
         <relativePath/>
     </parent>
     <groupId>cn.dataguru</groupId>
@@ -72,7 +73,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
-            <version>1.4.1.RELEASE</version>
+            <version>1.4.4.RELEASE</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
@@ -89,7 +90,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.RELEASE</version>
+                <version>Finchley.SR2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

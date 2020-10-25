@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SpiderPreUtil {
 
-    public static boolean valiRefer(HttpServletRequest request){
+    public static boolean validateReferer(HttpServletRequest request, String key){
         boolean result = false;
         String referer = request.getHeader("Referer");
         if(StringUtils.isNotBlank(referer)){
-            result = referer.contains("productlist/indexproduct");
+            result = referer.contains(key);
         }
         return result;
     }
@@ -51,7 +51,7 @@ public class SpiderPreUtil {
         }
     }
 
-    public static boolean valiCookie(HttpServletRequest request, HttpServletResponse response){
+    public static boolean validateCookie(HttpServletRequest request, HttpServletResponse response){
         boolean result = false;
         Cookie[] cookies = request.getCookies();
         boolean hasfenduan1 = false;
