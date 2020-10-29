@@ -19,7 +19,8 @@
         <module>rabbitmqtest</module>
         <module>ds_merchant</module>
         <module>ds_producttype2</module>
-<!--        <module>ds_gateway</module>-->
+        <module>ds_gouserspringcloud</module>
+        <!--        <module>ds_gateway</module>-->
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
